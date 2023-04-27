@@ -50,9 +50,6 @@ int readUsers(vector<User> &users){
         string username, password, firstName, lastName, phoneNumber, emailAddress, billingAddress, billingCity, billingState, billingZip, 
         shippingAddress, shippingCity, shippingState, shippingZip, cardNumber, cardCVV, cardDate;
         vector<string> history;
-        vector<string> shippingInfo;
-        vector<string> billingInfo;
-        vector<string> cardInfo;
 
         string delimiter = ",";
 
@@ -86,6 +83,10 @@ int readUsers(vector<User> &users){
         line.erase(0, line.find(delimiter) + delimiter.length());
         cardNumber = line.substr(0, line.find(delimiter));
         line.erase(0, line.find(delimiter) + delimiter.length());
+        cardCVV = line.substr(0, line.find(delimiter));
+        line.erase(0, line.find(delimiter) + delimiter.length());
+        cardDate = line.substr(0, line.find(delimiter));
+        line.erase(0, line.find(delimiter) + delimiter.length());
         while(1){
             string temp;
             temp = line.substr(0, line.find(delimiter));
@@ -95,6 +96,12 @@ int readUsers(vector<User> &users){
             line.erase(0, line.find(delimiter) + delimiter.length());
             history.push_back(temp);
         }
+        vector<string> shippingInfo = {shippingAddress, shippingCity, shippingState, shippingZip};
+        vector<string> billingInfo = {billingAddress, billingCity, billingState, billingZip};
+        vector<string> cardInfo = {cardNumber, cardCVV, cardDate};
+
+        User tempUser(username, password, firstName, lastName, phoneNumber, emailAddress, billingInfo, shippingInfo, cardInfo, history);
+        users.push_back(tempUser);
     }
     infile.close();
     infile.clear();
