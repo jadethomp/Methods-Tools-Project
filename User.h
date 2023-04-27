@@ -19,9 +19,11 @@ private:
 public:
     //constructors
     User();
-    User(string username, string password);
+    User(string username, string password, string firstName, string lastName, string phoneNumber, string emailAddress, 
+    vector<string> billingInfo, vector<string> shippingInfo, vector<string> cardInfo, vector<string> orderHistory);
 
     //getters
+    string getUsername();
     string getPassword(string username);
     vector<string> getName();
     vector<string> getContactInformation();

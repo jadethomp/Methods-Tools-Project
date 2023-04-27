@@ -11,12 +11,25 @@ User::User(){
     password = nullptr;
 }
 
-User::User(string username, string password){
+User::User(string username, string password, string firstName, string lastName, string phoneNumber, string emailAddress, 
+    vector<string> billingInfo, vector<string> shippingInfo, vector<string> cardInfo, vector<string> orderHistory){
     this->username = username;
     this->password = password;
+    this->firstName = firstName;
+    this->lastName = lastName;
+    this->phoneNumber = phoneNumber;
+    this->emailAddress = emailAddress;
+    this->billingInfo = billingInfo;
+    this->shippingInfo = shippingInfo;
+    this->cardInfo = cardInfo;
+    this->orderHistory = orderHistory;
 }
 
 //getters
+string User::getUsername(){
+    return username;
+}
+
 string User::getPassword(string username){
     return password;
 }
