@@ -195,8 +195,8 @@ int main(){
     string input;
     User current;
     vector<User> users;
-     vector<Item> items;
-     Inventory inventory;
+    vector<Item> items;
+    Inventory inventory;
     // vector<ShoppingCart> carts;
 
     //read in files
@@ -233,8 +233,10 @@ int main(){
                             //if correct, loggedIn = 1, break
                             //if incorrect, go back to beginning of password loop
                             //if 'X', break loop and loop back to pre-login options
+                            break; //temporary
                     }
                     //if input == 'X', break
+                    break; //temporary
                 }
             }
             else if (numInput == 2) {
@@ -243,11 +245,84 @@ int main(){
             else if (numInput == 3) {
                 return 0;
             }
+            break; //temporary
         }
         //they made it through! post-login menu goes below...
+        while(1){
+            // resets input
+            input = "";
+            cout << "Select an option:\n"
+                    "(1) View all games\n(2)View your cart\n"
+                    "(3) View order history\n(4) Edit account\n"
+                    "(5) Exit\n>>";
+            cin >> input;
+            // view all video games
+            if (input == "1"){
 
+            }
+            // view cart
+            else if (input == "2"){
 
+            }
+            // view order history
+            else if (input == "3"){
+
+            }
+            // edit account
+            else if (input == "4"){
+
+            }
+            // exit
+            else if (input == "5"){
+                break;
+            }
+            else{
+                cout << "Invalid input, please try again.\n";
+                continue; //maybe not necessary
+            }
+        }
+        break; //only executes upon exit
     }
+    // after main loop - upon exit
+
+    // write to .csv files
+    ofstream outfile;
+    outfile.open("users.csv", ios_base::out);
+    string delimiter = ",";
+
+    // write to users.csv
+    for (int i = 0; i < users.size(); i++){
+        if (i != 0){
+            outfile << endl;
+        }
+        outfile << users[i].getUsername() << delimiter;
+        outfile << users[i].getPassword() << delimiter;
+        outfile << users[i].getName()[0] << delimiter;
+        outfile << users[i].getName()[1] << delimiter;
+        outfile << users[i].getContactInformation()[0] << delimiter;
+        outfile << users[i].getContactInformation()[1] << delimiter;
+        outfile << users[i].getBillingInfo()[0] << delimiter;
+        outfile << users[i].getBillingInfo()[1] << delimiter;
+        outfile << users[i].getBillingInfo()[2] << delimiter;
+        outfile << users[i].getBillingInfo()[3] << delimiter;
+        outfile << users[i].getShippingInfo()[0] << delimiter;
+        outfile << users[i].getShippingInfo()[1] << delimiter;
+        outfile << users[i].getShippingInfo()[2] << delimiter;
+        outfile << users[i].getShippingInfo()[3] << delimiter;
+        outfile << users[i].getCardInfo()[0] << delimiter;
+        outfile << users[i].getCardInfo()[1] << delimiter;
+        outfile << users[i].getCardInfo()[2] << delimiter;
+        for (int j = 0; j < users[i].getHistory().size(); j++){
+            outfile << users[i].getHistory()[j] << delimiter;
+        }
+        outfile << "END";
+    }
+
+    // write to items.csv
+
+    // write to inventory.csv
+
+    // write to carts.csv
 
     return 0;
 }
