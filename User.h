@@ -24,7 +24,7 @@ public:
 
     //getters
     string getUsername();
-    string getPassword(string username);
+    string getPassword();
     vector<string> getName();
     vector<string> getContactInformation();
     vector<string> getBillingInfo();

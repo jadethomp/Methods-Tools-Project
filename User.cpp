@@ -30,7 +30,7 @@ string User::getUsername(){
     return username;
 }
 
-string User::getPassword(string username){
+string User::getPassword(){
     return password;
 }
 
