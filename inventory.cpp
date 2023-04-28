@@ -65,7 +65,7 @@ void Inventory::displayInventory()
 	for (int i = 0; i < items.size(); i++)
 	{
 		// Grabbing the appropriate information
-		gameName = items[i].title; // TODO : Make sure this line works properly
+		gameName = items[i].getTitle();
 		gamePlatform = items[i].getPlatform();
 		gamePrice = items[i].getPrice();
 		gameQuantity = itemAmounts[i];
