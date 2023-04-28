@@ -13,6 +13,10 @@ Item::Item() {
     yearReleased = NULL;
 }
 
+string Item::getTitle() {
+    return title;
+}
+
 string Item::getGenre(string title) {
     return genre;
 }

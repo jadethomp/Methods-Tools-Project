@@ -14,10 +14,11 @@ private:
     int yearReleased;
 
 public:
-    //Constructor
+    //constructor
     Item();
 
     //getters
+    string getTitle();
     string getGenre(string title);
     double getPrice(string title);
     string getPublisher(string title);
