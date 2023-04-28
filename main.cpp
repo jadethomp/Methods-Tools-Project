@@ -4,6 +4,7 @@
 #include <fstream>
 #include <errno.h>
 #include <ctype.h>
+#include <algorithm>
 using namespace std;
 
 #include "User.h"
@@ -397,25 +398,217 @@ int main(){
                     }
                     else if (numInput == 2){ // edit contact info
                         // display contact info
-
+                        cout << "Current contact information on file:\n"
+                                "Name: " << current.getName()[0] << " " << current.getName()[1] << endl <<
+                                "Email: " << current.getContactInformation()[1] << endl <<
+                                "Phone Number: " << current.getContactInformation()[0] << endl << endl;
+                        cout << "What would you like to edit?\n" << "(1) Name\n(2) Email Address\n"
+                                                                    "(3) Phone Number\n(4) Cancel\n>>";
+                        cin >> numInput;
+                        if (numInput == 1){
+                            string firstName, lastName;
+                            cout << "Enter your first name.\n>>";
+                            cin >> firstName;
+                            cout << "Enter your last name.\n>>";
+                            cin >> lastName;
+                            current.setRealName(firstName, lastName);
+                            cout << "Name set.\n";
+                            break;
+                        }
+                        else if (numInput == 2){
+                            string emailAddress;
+                            cout << "Enter your email address.\n>>";
+                            cin >> emailAddress;
+                            current.setContactInfo(current.getContactInformation()[0], emailAddress);
+                            cout << "Email address set.\n";
+                            break;
+                        }
+                        else if (numInput == 3){
+                            string phoneNumber;
+                            cout << "Enter your phone number (numbers only).\n>>";
+                            cin >> phoneNumber;
+                            current.setContactInfo(phoneNumber, current.getContactInformation()[1]);
+                            cout << "Phone number set.\n";
+                            break;
+                        }
+                        else if (numInput == 4){
+                            break;
+                        }
+                        else{
+                            cout << "Invalid input.\n";
+                            continue;
+                        }
                     }
-                    else if (numInput == 3){
-
+                    else if (numInput == 3){ // edit shipping address
+                        // display shipping info
+                        cout << "Current shipping information on file:\n"
+                                "Address: " << current.getShippingInfo()[0] << endl <<
+                                "City: " << current.getShippingInfo()[1] << endl <<
+                                "State: " << current.getShippingInfo()[2] << endl <<
+                                "Zip: " << current.getShippingInfo()[3] << endl << endl;
+                        cout << "What would you like to edit?\n" << "(1) Address\n(2) City\n"
+                                                                    "(3) State\n(4) Zip Code\n(5) Cancel\n>>";
+                        cin >> numInput;
+                        if (numInput == 1){
+                            string address;
+                            cout << "Enter your address (just the street).\n>>";
+                            cin.ignore();
+                            getline(cin, address);
+                            current.setShippingInfo(address, current.getShippingInfo()[1],
+                                                    current.getShippingInfo()[2], current.getShippingInfo()[3]);
+                            cout << "Address set.\n";
+                            break;
+                        }
+                        else if (numInput == 2){
+                            string city;
+                            cout << "Enter your city.\n>>";
+                            cin >> city;
+                            current.setShippingInfo(current.getShippingInfo()[0], city,
+                                                    current.getShippingInfo()[2], current.getShippingInfo()[3]);
+                            cout << "City set.\n";
+                            break;
+                        }
+                        else if (numInput == 3){
+                            string state;
+                            cout << "Enter your state (initials).\n>>";
+                            cin >> state;
+                            current.setShippingInfo(current.getShippingInfo()[0], current.getShippingInfo()[1],
+                                                    state, current.getShippingInfo()[3]);
+                            cout << "State set.\n";
+                            break;
+                        }
+                        else if (numInput == 4){
+                            string zip;
+                            cout << "Enter your zip code.\n>>";
+                            cin >> zip;
+                            current.setShippingInfo(current.getShippingInfo()[0], current.getShippingInfo()[1],
+                                                    current.getShippingInfo()[2], zip);
+                            cout << "Zip code set.\n";
+                            break;
+                        }
+                        else if (numInput == 5){
+                            break;
+                        }
+                        else{
+                            cout << "Invalid input.\n";
+                            continue;
+                        }
                     }
-                    else if (numInput == 4){
-
+                    else if (numInput == 4){ // edit billing address
+                        // display billing info
+                        cout << "Current billing information on file:\n"
+                                "Address: " << current.getBillingInfo()[0] << endl <<
+                             "City: " << current.getBillingInfo()[1] << endl <<
+                             "State: " << current.getBillingInfo()[2] << endl <<
+                             "Zip: " << current.getBillingInfo()[3] << endl << endl;
+                        cout << "What would you like to edit?\n" << "(1) Address\n(2) City\n"
+                                                                    "(3) State\n(4) Zip Code\n(5) Cancel\n>>";
+                        cin >> numInput;
+                        if (numInput == 1){
+                            string address;
+                            cout << "Enter your address (just the street).\n>>";
+                            cin.ignore();
+                            getline(cin, address);
+                            current.setBillingInfo(address, current.getBillingInfo()[1],
+                                                    current.getBillingInfo()[2], current.getBillingInfo()[3]);
+                            cout << "Address set.\n";
+                            break;
+                        }
+                        else if (numInput == 2){
+                            string city;
+                            cout << "Enter your city.\n>>";
+                            cin >> city;
+                            current.setBillingInfo(current.getBillingInfo()[0], city,
+                                                    current.getBillingInfo()[2], current.getBillingInfo()[3]);
+                            cout << "City set.\n";
+                            break;
+                        }
+                        else if (numInput == 3){
+                            string state;
+                            cout << "Enter your state (initials).\n>>";
+                            cin >> state;
+                            current.setBillingInfo(current.getBillingInfo()[0], current.getBillingInfo()[1],
+                                                    state, current.getBillingInfo()[3]);
+                            cout << "State set.\n";
+                            break;
+                        }
+                        else if (numInput == 4){
+                            string zip;
+                            cout << "Enter your zip code.\n>>";
+                            cin >> zip;
+                            current.setBillingInfo(current.getBillingInfo()[0], current.getBillingInfo()[1],
+                                                    current.getBillingInfo()[2], zip);
+                            cout << "Zip code set.\n";
+                            break;
+                        }
+                        else if (numInput == 5){
+                            break;
+                        }
+                        else{
+                            cout << "Invalid input.\n";
+                            continue;
+                        }
                     }
-                    else if (numInput == 5){
-
+                    else if (numInput == 5){ // edit payment info
+                        // display payment info
+                        cout << "Current payment information on file:\n"
+                                "Card Number: " << current.getCardInfo()[0] << endl <<
+                             "CVV: " << current.getCardInfo()[1] << endl <<
+                             "Expiration Date: " << current.getCardInfo()[2] << endl << endl;
+                        cout << "What would you like to edit?\n" << "(1) Card Number\n(2) CVV\n"
+                                                                    "(3) Expiration Date\n(4) Cancel\n>>";
+                        cin >> numInput;
+                        if (numInput == 1){
+                            string number;
+                            cout << "Enter your card number.\n>>";
+                            cin >> number;
+                            current.setCardInfo(number, current.getCardInfo()[1], current.getCardInfo()[2]);
+                            cout << "Card number set.\n";
+                            break;
+                        }
+                        else if (numInput == 2){
+                            string cvv;
+                            cout << "Enter your CVV.\n>>";
+                            cin >> cvv;
+                            current.setCardInfo(current.getCardInfo()[0], cvv, current.getCardInfo()[2]);
+                            cout << "CVV set.\n";
+                            break;
+                        }
+                        else if (numInput == 3){
+                            string expiration;
+                            cout << "Enter your expiration date (formatted as MM/YY).\n>>";
+                            cin >> expiration;
+                            current.setCardInfo(current.getCardInfo()[0], current.getCardInfo()[1], expiration);
+                            cout << "Phone number set.\n";
+                            break;
+                        }
+                        else if (numInput == 4){
+                            break;
+                        }
+                        else{
+                            cout << "Invalid input.\n";
+                            continue;
+                        }
                     }
-                    else if (numInput == 6){
-
+                    else if (numInput == 6){ // delete account
+                        for (int i = 0; i < users.size(); i++){
+                            if (users[i].getUsername() == current.getUsername()){
+                                users.erase(users.begin() + i);
+                                break;
+                            }
+                        }
+                        cout << "Account deleted. Exiting...\n";
+                        break;
                     }
                     else{
                         cout << "Invalid input, please try again.\n";
                         continue;
                     }
                 }
+            }
+            // exit program
+            if (numInput == 6){
+                break;
             }
             // exit
             else if (numInput == 5){
