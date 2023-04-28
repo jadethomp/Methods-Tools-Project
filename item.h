@@ -1,3 +1,6 @@
+#ifndef METHODS_TOOLS_PROJECT_ITEM_H
+#define METHODS_TOOLS_PROJECT_ITEM_H
+
 #include <iostream>
 #include <vector>
 #include <string>
@@ -26,3 +29,5 @@ public:
     string getPlatform(string title);
     int getYear(string title);
 };
+
+#endif //METHODS_TOOLS_PROJECT_ITEM_H
