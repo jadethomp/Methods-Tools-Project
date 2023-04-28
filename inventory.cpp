@@ -76,6 +76,6 @@ void Inventory::displayInventory()
 		gameQuantity = itemAmounts[i];
 
 		// Displaying the data
-		cout << "Name: " << gameName << "\tPlatform: " << gamePlatform << "\tPrice: " << gamePrice << "\tQuantity: " << gameQuantity << endl;
+		cout << "Item " << i + 1 << " --- Name: " << gameName << "\tPlatform: " << gamePlatform << "\tPrice: " << gamePrice << "\tQuantity: " << gameQuantity << endl;
 	}
 }
