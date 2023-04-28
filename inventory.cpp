@@ -26,6 +26,14 @@ vector<Item> Inventory::getItems(){
     return this->items;
 }
 
+// Returns list of current item amounts
+vector<int> Inventory::getItemAmounts()
+{
+	// Returning the item amount vector
+	return this->itemAmounts;
+	
+}
+
 // Gets the amount of the desired item
 int Inventory::getAmount(Item item)
 {
