@@ -148,11 +148,11 @@ int readInventory(Inventory &inventory, vector<Item> items){
         line.erase(0, line.find(delimiter) + delimiter.length());
         quantity = line.substr(0, line.find(delimiter));
         for(int i = 0; i < items.size(); i++){
-//            if (title == items[i].getTitle()){
-//                temp = items[i];
-//                tempItems.push_back(temp);
-//                break;
-//            }
+            if (title == items[i].getTitle()){
+                temp = items[i];
+                tempItems.push_back(temp);
+                break;
+            }
         }
         tempQuantities.push_back(stoi(quantity));
     }
@@ -192,11 +192,11 @@ int readCart(vector<User> users, vector<Item> items, vector<ShoppingCart> &carts
         }
         for (int i = 0; i < itemTitles.size(); i++){
             for (int j = 0; j < items.size(); j++){
-//                if (itemTitles[i] == items[j].getTitle()){
-//                    tempItem = items[j];
-//                    tempItems.push_back(tempItem);
-//                    break;
-//                }
+                if (itemTitles[i] == items[j].getTitle()){
+                    tempItem = items[j];
+                    tempItems.push_back(tempItem);
+                    break;
+                }
             }
         }
 //        ShoppingCart tempCart(tempUser, tempItems);
@@ -606,7 +606,7 @@ int main(){
                     }
                 }
             }
-            // exit program
+            // exit program (using leftover input from inside "delete account" branch)
             if (numInput == 6){
                 break;
             }
@@ -621,7 +621,7 @@ int main(){
         }
         break; //only executes upon exit
     }
-    // after main loop - upon exit
+    // after main loop - below runs upon exit
 
     // write to .csv files
     ofstream outfile;
@@ -665,7 +665,7 @@ int main(){
         if (i != 0){
             outfile << endl;
         }
-//        outfile << items[i].getTitle() << delimiter;
+        outfile << items[i].getTitle() << delimiter;
         outfile << items[i].getGenre("") << delimiter;
         outfile << items[i].getPrice("") << delimiter;
         outfile << items[i].getPublisher("") << delimiter;
@@ -677,7 +677,7 @@ int main(){
     // write to inventory.csv
     //...need getItems() added to inventory class
     outfile.open("inventory.csv", ios_base::out);
-    /*
+/*
     for (int i = 0; i < inventory.getItems().size(); i++){
         if (i != 0){
             outfile << endl;
@@ -686,12 +686,12 @@ int main(){
         outfile << temp.getTitle() << delimiter;
         outfile << inventory.getAmount(temp);
     }
-    */
+*/
     outfile.close();
 
     // write to carts.csv
     outfile.open("carts.csv", ios_base::out);
-    /*
+/*
     for (int i = 0; i < carts.size(); i++){
         if (i != 0){
             outfile << endl;
@@ -703,7 +703,7 @@ int main(){
         }
         outfile << "END";
     }
-    */
+*/
     outfile.close();
 
     return 0;
