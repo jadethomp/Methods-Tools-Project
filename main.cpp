@@ -655,15 +655,56 @@ int main(){
         }
         outfile << "END";
     }
+    outfile.close();
 
     // write to items.csv
+    //...turns out we do not need the title in the parameter for these getters
+    //...we'll worry about that later
+    outfile.open("items.csv", ios_base::out);
     for (int i = 0; i < items.size(); i++){
-
+        if (i != 0){
+            outfile << endl;
+        }
+//        outfile << items[i].getTitle() << delimiter;
+        outfile << items[i].getGenre("") << delimiter;
+        outfile << items[i].getPrice("") << delimiter;
+        outfile << items[i].getPublisher("") << delimiter;
+        outfile << items[i].getPlatform("") << delimiter;
+        outfile << items[i].getYear("");
     }
+    outfile.close();
 
     // write to inventory.csv
+    //...need getItems() added to inventory class
+    outfile.open("inventory.csv", ios_base::out);
+    /*
+    for (int i = 0; i < inventory.getItems().size(); i++){
+        if (i != 0){
+            outfile << endl;
+        }
+        Item temp = inventory.getItems()[i];
+        outfile << temp.getTitle() << delimiter;
+        outfile << inventory.getAmount(temp);
+    }
+    */
+    outfile.close();
 
     // write to carts.csv
+    outfile.open("carts.csv", ios_base::out);
+    /*
+    for (int i = 0; i < carts.size(); i++){
+        if (i != 0){
+            outfile << endl;
+        }
+        outfile << carts[i].getUsername() << delimiter;
+        for (int j = 0; j < carts.viewCart().size(); j++){
+            Item temp = carts.viewCart()[j];
+            outfile << temp.getTitle() << delimiter;
+        }
+        outfile << "END";
+    }
+    */
+    outfile.close();
 
     return 0;
 }
