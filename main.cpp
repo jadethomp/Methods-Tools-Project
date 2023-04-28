@@ -378,7 +378,7 @@ int main(){
                 {
                     // Asks the user if they would like to add a game to the cart
                     cout << "Would you like to add a game to your shopping cart?" << endl;
-                    cout << "Select an option"\n"
+                    cout << "Select an option\n"
                             "(1) Add to cart\n(2)Exit\n>>";
 
                     // Resetting input
