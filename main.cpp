@@ -58,10 +58,9 @@ int readItems(vector<Item> &items){
         platform = line.substr(0, line.find(delimiter));
         line.erase(0, line.find(delimiter) + delimiter.length());
         releaseYear = line.substr(0, line.find(delimiter));
-//        to-do: add a constructor for this, or setters
-//        Item temp(title, genre, price, publisher, platform, releaseYear);
+        Item temp(title, genre, stof(price), publisher, platform, stoi(releaseYear));
 
-//        items.push_back(temp);
+        items.push_back(temp);
     }
     infile.close();
     infile.clear(); // might need this?
@@ -659,7 +658,7 @@ int main(){
 
     // write to items.csv
     //...turns out we do not need the title in the parameter for these getters
-    //...we'll worry about that later
+    //...no biggie
     outfile.open("items.csv", ios_base::out);
     for (int i = 0; i < items.size(); i++){
         if (i != 0){
@@ -667,17 +666,15 @@ int main(){
         }
         outfile << items[i].getTitle() << delimiter;
         outfile << items[i].getGenre("") << delimiter;
-        outfile << items[i].getPrice("") << delimiter;
+        outfile << to_string(items[i].getPrice("")) << delimiter;
         outfile << items[i].getPublisher("") << delimiter;
         outfile << items[i].getPlatform("") << delimiter;
-        outfile << items[i].getYear("");
+        outfile << to_string(items[i].getYear(""));
     }
     outfile.close();
 
     // write to inventory.csv
-    //...need getItems() added to inventory class
     outfile.open("inventory.csv", ios_base::out);
-/*
     for (int i = 0; i < inventory.getItems().size(); i++){
         if (i != 0){
             outfile << endl;
@@ -686,7 +683,6 @@ int main(){
         outfile << temp.getTitle() << delimiter;
         outfile << inventory.getAmount(temp);
     }
-*/
     outfile.close();
 
     // write to carts.csv
