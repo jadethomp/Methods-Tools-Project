@@ -372,7 +372,7 @@ int main(){
             cin >> numInput;
             // view all video games -- akira
             if (numInput == 1){
-
+                inventory.displayInventory();
             }
             // view cart -- samarra
             else if (numInput == 2){
