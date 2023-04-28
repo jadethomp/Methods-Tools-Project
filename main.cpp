@@ -45,7 +45,7 @@ int readItems(vector<Item> &items){
     infile.open("items.csv");
     string line;
     while(getline(infile, line)){
-        string title, genre, price, publisher, platform, releaseYear;
+        string title, genre, price, publisher, platform, yearReleased;
         string delimiter = ",";
         title = line.substr(0, line.find(delimiter));
         line.erase(0, line.find(delimiter) + delimiter.length());
@@ -57,8 +57,14 @@ int readItems(vector<Item> &items){
         line.erase(0, line.find(delimiter) + delimiter.length());
         platform = line.substr(0, line.find(delimiter));
         line.erase(0, line.find(delimiter) + delimiter.length());
+<<<<<<< Updated upstream
         releaseYear = line.substr(0, line.find(delimiter));
         Item temp(title, genre, stof(price), publisher, platform, stoi(releaseYear));
+=======
+        yearReleased = line.substr(0, line.find(delimiter));
+//        to-do: add a constructor for this, or setters
+//        Item temp(title, genre, price, publisher, platform, yearReleased);
+>>>>>>> Stashed changes
 
         items.push_back(temp);
     }
@@ -147,11 +153,11 @@ int readInventory(Inventory &inventory, vector<Item> items){
         line.erase(0, line.find(delimiter) + delimiter.length());
         quantity = line.substr(0, line.find(delimiter));
         for(int i = 0; i < items.size(); i++){
-            if (title == items[i].getTitle()){
-                temp = items[i];
-                tempItems.push_back(temp);
-                break;
-            }
+//            if (title == items[i].getTitle()){
+//                temp = items[i];
+//                tempItems.push_back(temp);
+//                break;
+//            }
         }
         tempQuantities.push_back(stoi(quantity));
     }
@@ -191,11 +197,11 @@ int readCart(vector<User> users, vector<Item> items, vector<ShoppingCart> &carts
         }
         for (int i = 0; i < itemTitles.size(); i++){
             for (int j = 0; j < items.size(); j++){
-                if (itemTitles[i] == items[j].getTitle()){
-                    tempItem = items[j];
-                    tempItems.push_back(tempItem);
-                    break;
-                }
+//                if (itemTitles[i] == items[j].getTitle()){
+//                    tempItem = items[j];
+//                    tempItems.push_back(tempItem);
+//                    break;
+//                }
             }
         }
 //        ShoppingCart tempCart(tempUser, tempItems);
@@ -371,16 +377,65 @@ int main(){
             cin >> numInput;
             // view all video games -- akira
             if (numInput == 1){
-                inventory.displayInventory();
+
             }
             // view cart -- samarra
             else if (numInput == 2){
-
+                //cart editing loop
+                while(1){
+                    input = "";
+                    cout << "Select an option:\n"
+                            "(1) Go back\n(2) Edit Contact Information\n"
+                            "(3) Edit Shipping Address\n(4) Edit Billing Address\n"
+                            "(5) Edit Payment Information\n(6) Delete Account\n>>";
+                    cin >> numInput;
+                    if (numInput == 1){ // go back
+                        // break out of editing loop, back to main loop
+                        break;
+                    }
+                    else if (numInput == 2){ //Remove item from cart
+                        cout << "Selct an option:\n(1) Confirm\n (2) Cancel.\n";
+                        cin >> numInput;
+                        if (numInput = 1){
+                        removeItem();
+                        }
+                        else if (numInput = 2){
+                            break;
+                        }
+                        else{
+                            cout << "Invalid input, please try again.\n";
+                            continue;
+                        }
+                    }
+                    else if (numInput == 3){ //Check out
+                        cout << "Selct an option:\n(1) Confirm\n (2) Cancel.\n";
+                        cin >> numInput;
+                        if (numInput = 1){
+                            checkout();
+                        }
+                        else if (numInput = 2){
+                            break;
+                        }
+                        else{
+                            cout << "Invalid input, please try again.\n";
+                            continue;
+                        }
+                    }
+                    else if (numInput == 4){ //Clear cart
+                        emptyCart();
+                        cout << "Clearing cart.\n";
+                        break;
+                    }
+                    else{
+                        cout << "Invalid input, please try again.\n";
+                        continue;
+                    }
+                    }
+                }
             }
             // view order history -- edward
             else if (numInput == 3){
 
-            }
             // edit account -- jade
             else if (numInput == 4){
                 // account editing loop
@@ -605,7 +660,7 @@ int main(){
                     }
                 }
             }
-            // exit program (using leftover input from inside "delete account" branch)
+            // exit program
             if (numInput == 6){
                 break;
             }
@@ -620,7 +675,7 @@ int main(){
         }
         break; //only executes upon exit
     }
-    // after main loop - below runs upon exit
+    // after main loop - upon exit
 
     // write to .csv files
     ofstream outfile;
@@ -664,7 +719,7 @@ int main(){
         if (i != 0){
             outfile << endl;
         }
-        outfile << items[i].getTitle() << delimiter;
+//        outfile << items[i].getTitle() << delimiter;
         outfile << items[i].getGenre("") << delimiter;
         outfile << to_string(items[i].getPrice("")) << delimiter;
         outfile << items[i].getPublisher("") << delimiter;
@@ -675,6 +730,10 @@ int main(){
 
     // write to inventory.csv
     outfile.open("inventory.csv", ios_base::out);
+<<<<<<< Updated upstream
+=======
+    /*
+>>>>>>> Stashed changes
     for (int i = 0; i < inventory.getItems().size(); i++){
         if (i != 0){
             outfile << endl;
@@ -683,11 +742,15 @@ int main(){
         outfile << temp.getTitle() << delimiter;
         outfile << inventory.getAmount(temp);
     }
+<<<<<<< Updated upstream
+=======
+    */
+>>>>>>> Stashed changes
     outfile.close();
 
     // write to carts.csv
     outfile.open("carts.csv", ios_base::out);
-/*
+    /*
     for (int i = 0; i < carts.size(); i++){
         if (i != 0){
             outfile << endl;
@@ -699,7 +762,7 @@ int main(){
         }
         outfile << "END";
     }
-*/
+    */
     outfile.close();
 
     return 0;
