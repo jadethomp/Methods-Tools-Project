@@ -21,6 +21,7 @@ class Inventory
 		Inventory(vector<Item> items, vector<int> itemAmounts);
 
 		// Class Functions
+        vector<Item> getItems();
 		int getAmount(Item item);
 		void removeInventory(Item item, int quantity);
 		void displayInventory();

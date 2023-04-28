@@ -21,6 +21,11 @@ Inventory::Inventory(vector<Item> items, vector<int> itemAmounts)
 	this->itemAmounts = itemAmounts;
 }
 
+// Returns list of available items
+vector<Item> Inventory::getItems(){
+    return this->items;
+}
+
 // Gets the amount of the desired item
 int Inventory::getAmount(Item item)
 {
@@ -28,7 +33,7 @@ int Inventory::getAmount(Item item)
 	for (int i = 0; i < items.size(); i++)
 	{
 		// Checking to see if the items match
-		if (items[i] = item)
+		if (items[i].getTitle() == item.getTitle())
 		{
 			// Returning the amount of the item if it matches
 			return itemAmounts[i];
@@ -43,7 +48,7 @@ void Inventory::removeInventory(Item item, int quantity)
 	for (int i = 0; i < items.size(); i++)
 	{
 		// Checking to see if the items match
-		if (items[i] = item)
+		if (items[i].getTitle() == item.getTitle())
 		{
 			// Removing from the item amount vector
 			itemAmounts[i] = itemAmounts[i] - quantity;
@@ -66,8 +71,8 @@ void Inventory::displayInventory()
 	{
 		// Grabbing the appropriate information
 		gameName = items[i].getTitle();
-		gamePlatform = items[i].getPlatform();
-		gamePrice = items[i].getPrice();
+		gamePlatform = items[i].getPlatform("");
+		gamePrice = items[i].getPrice("");
 		gameQuantity = itemAmounts[i];
 
 		// Displaying the data
