@@ -71,8 +71,8 @@ int readUsers(vector<User> &users){
     infile.open("users.csv");
     string line;
     while(getline(infile, line)){
-        string username, password, firstName, lastName, phoneNumber, emailAddress, billingAddress, billingCity, billingState, billingZip, 
-        shippingAddress, shippingCity, shippingState, shippingZip, cardNumber, cardCVV, cardDate;
+        string username, password, firstName, lastName, phoneNumber, emailAddress, billingAddress, billingCity, billingState, billingZip,
+                shippingAddress, shippingCity, shippingState, shippingZip, cardNumber, cardCVV, cardDate;
         vector<string> history;
 
         string delimiter = ",";
@@ -287,9 +287,9 @@ int main(){
             else if (numInput == 2) {
                 // temp vars
                 string username, password, firstName, lastName, phoneNumber,
-                emailAddress, billingAddress, billingCity, billingState, billingZip,
-                shippingAddress, shippingCity, shippingState, shippingZip, cardNum,
-                cardCVV, cardDate;
+                        emailAddress, billingAddress, billingCity, billingState, billingZip,
+                        shippingAddress, shippingCity, shippingState, shippingZip, cardNum,
+                        cardCVV, cardDate;
                 vector<string> history = {};
                 cout << "At any point in account creation, enter 'X' to cancel.\n";
                 //username loop
@@ -369,12 +369,12 @@ int main(){
                     "(3) View order history\n(4) Edit account\n"
                     "(5) Exit\n>>";
             cin >> numInput;
-            
+
             // view all video games -- akira
             if (numInput == 1){
                 // Displaying the current inventory
                 inventory.displayInventory();
-                
+
                 while (1)
                 {
                     // Asks the user if they would like to add a game to the cart
@@ -387,7 +387,7 @@ int main(){
 
                     // Prompting user for input
                     cin >> numInput;
-                    
+
                     // Adding to cart
                     if (numInput == 1)
                     {
@@ -395,44 +395,45 @@ int main(){
                         {
                             cout << "Which game would you like to purchase?" << endl;
                             cout << "Input the number found at the beginning of the line. Select 0 to exit.";
-                            
+
                             // Resetting input
                             numInput = -1;
-                            
+
                             // Prompting user for input
                             cin >> numInput;
-                            
+
                             // Making sure that the item is in stock
-                            if (inventory.itemAmounts[i - 1] > 0)
+                            Item temp = inventory.getItems()[numInput - 1];
+                            if (inventory.getAmount(temp) > 0)
                             {
                                 // TODO: Add the item to the cart (I don't think this function exists yet)                         
                             }
-                            
+
                             else
                             {
                                 cout << "Sorry, that item is currently not in stock. Check back later." << endl;
                                 break;
                             }
                         }
-                        
+
                         continue;
                     }
-                    
-                    // Exiting
+
+                        // Exiting
                     else if (numInput == 2)
                     {
                         break;
                     }
-                    
+
                     else
                     {
                         cout << "Invalid input, please try again.\n";
                         continue;
                     }
-               }
+                }
             }
-            
-            // view cart -- samarra
+
+                // view cart -- samarra
             else if (numInput == 2){
                 // need to display cart here!!!
                 //cart editing loop
@@ -485,10 +486,11 @@ int main(){
                     }
                 }
             }
-            // view order history -- edward
-            else if (numInput == 3){
+                // view order history -- edward
+            else if (numInput == 3) {
 
-            // edit account -- jade
+            }
+                // edit account -- jade
             else if (numInput == 4){
                 // account editing loop
                 while(1){
@@ -506,8 +508,8 @@ int main(){
                         // display contact info
                         cout << "Current contact information on file:\n"
                                 "Name: " << current.getName()[0] << " " << current.getName()[1] << endl <<
-                                "Email: " << current.getContactInformation()[1] << endl <<
-                                "Phone Number: " << current.getContactInformation()[0] << endl << endl;
+                             "Email: " << current.getContactInformation()[1] << endl <<
+                             "Phone Number: " << current.getContactInformation()[0] << endl << endl;
                         cout << "What would you like to edit?\n" << "(1) Name\n(2) Email Address\n"
                                                                     "(3) Phone Number\n(4) Cancel\n>>";
                         cin >> numInput;
@@ -549,9 +551,9 @@ int main(){
                         // display shipping info
                         cout << "Current shipping information on file:\n"
                                 "Address: " << current.getShippingInfo()[0] << endl <<
-                                "City: " << current.getShippingInfo()[1] << endl <<
-                                "State: " << current.getShippingInfo()[2] << endl <<
-                                "Zip: " << current.getShippingInfo()[3] << endl << endl;
+                             "City: " << current.getShippingInfo()[1] << endl <<
+                             "State: " << current.getShippingInfo()[2] << endl <<
+                             "Zip: " << current.getShippingInfo()[3] << endl << endl;
                         cout << "What would you like to edit?\n" << "(1) Address\n(2) City\n"
                                                                     "(3) State\n(4) Zip Code\n(5) Cancel\n>>";
                         cin >> numInput;
@@ -616,7 +618,7 @@ int main(){
                             cin.ignore();
                             getline(cin, address);
                             current.setBillingInfo(address, current.getBillingInfo()[1],
-                                                    current.getBillingInfo()[2], current.getBillingInfo()[3]);
+                                                   current.getBillingInfo()[2], current.getBillingInfo()[3]);
                             cout << "Address set.\n";
                             break;
                         }
@@ -625,7 +627,7 @@ int main(){
                             cout << "Enter your city.\n>>";
                             cin >> city;
                             current.setBillingInfo(current.getBillingInfo()[0], city,
-                                                    current.getBillingInfo()[2], current.getBillingInfo()[3]);
+                                                   current.getBillingInfo()[2], current.getBillingInfo()[3]);
                             cout << "City set.\n";
                             break;
                         }
@@ -634,7 +636,7 @@ int main(){
                             cout << "Enter your state (initials).\n>>";
                             cin >> state;
                             current.setBillingInfo(current.getBillingInfo()[0], current.getBillingInfo()[1],
-                                                    state, current.getBillingInfo()[3]);
+                                                   state, current.getBillingInfo()[3]);
                             cout << "State set.\n";
                             break;
                         }
@@ -643,7 +645,7 @@ int main(){
                             cout << "Enter your zip code.\n>>";
                             cin >> zip;
                             current.setBillingInfo(current.getBillingInfo()[0], current.getBillingInfo()[1],
-                                                    current.getBillingInfo()[2], zip);
+                                                   current.getBillingInfo()[2], zip);
                             cout << "Zip code set.\n";
                             break;
                         }
@@ -716,7 +718,7 @@ int main(){
             if (numInput == 6){
                 break;
             }
-            // exit
+                // exit
             else if (numInput == 5){
                 break;
             }
