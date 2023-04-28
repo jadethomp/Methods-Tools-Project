@@ -3,12 +3,37 @@
 #include <string>
 #include <fstream>
 #include <errno.h>
+#include <ctype.h>
 using namespace std;
 
 #include "User.h"
 #include "item.h"
 #include "inventory.h"
 // #include "ShoppingCart.h"
+
+// checks if the username is valid
+bool checkUsername(string username, vector<User> users){
+    if (isspace(username[0])){
+        cout << "Invalid username. Please enter text or numbers.\n";
+        return false;
+    }
+    for (int i = 0; i < username.length(); i++){
+        if (!isalnum(username[i])){
+            cout << "Invalid username. Please only enter letters or numbers.\n";
+        }
+    }
+    if (username.length() < 2){
+        cout << "Username must be at least two characters long.\n";
+        return false;
+    }
+    for (int i = 0; i < users.size(); i++) {
+        if (username == users[i].getUsername()) {
+            cout << "This username already exists. Try again.\n";
+            return false;
+        }
+    }
+    return true;
+}
 
 // functions to read the .csv files into containers, the program works with these containers while running
 // instead of trying to deal with in-file editing, then writes to files before program exits
@@ -212,38 +237,126 @@ int main(){
         //pre-login loop
         while (loggedIn == 0) {
             cout << "Please select an option to continue.\n"
-                    "(1)Login\n(2)Register\n(3)Exit\n>>";
+                    "(1)Login\n(2)Create Account\n(3)Exit\n>>";
             cin >> numInput;
             if (numInput == 1) {
                 //login loop
                 while(1) {
+                    input = "";
                     //prompt for login
                     cout << "Enter your username, or enter X to cancel.\n>>";
                     cin >> input;
+                    if (input == "X"){
+                        break;
+                    }
                     //check if username is registered
-                        //if registered, keep going
-                        //if not, go back to beginning of login loop
-                        //if 'X', break loop and loop back to pre-login options
+                    for (int i = 0; i < users.size(); i++){
+                        if (input == users[i].getUsername()){
+                            loggedIn = 2; // i'm using 2 as an "in between" (indicates username exists)
+                            current = users[i];
+                            break;
+                        }
+                    }
+                    //if username not registered
+                    if (loggedIn != 2){
+                        cout << "Username not registered.\n";
+                        continue;
+                    }
                     //enter password loop
-                    while(1){
+                    while(loggedIn == 2){
                         input = "";
                         cout << "Enter your password, or enter X to cancel.\n>>";
                         cin >> input;
-                        //check if password is correct
-                            //if correct, loggedIn = 1, break
-                            //if incorrect, go back to beginning of password loop
-                            //if 'X', break loop and loop back to pre-login options
-                            break; //temporary
+                        if (input == "X"){
+                            break;
+                        }
+                        if (input == current.getPassword()){
+                            loggedIn = 1;
+                        }
+                        else{
+                            cout << "Incorrect password. Try again.\n";
+                            continue;
+                        }
                     }
-                    //if input == 'X', break
-                    break; //temporary
+                    // extra one to break completely out of login loop
+                    if (input == "X"){
+                        break;
+                    }
                 }
             }
             else if (numInput == 2) {
-                //make a new user
+                // temp vars
+                string username, password, firstName, lastName, phoneNumber,
+                emailAddress, billingAddress, billingCity, billingState, billingZip,
+                shippingAddress, shippingCity, shippingState, shippingZip, cardNum,
+                cardCVV, cardDate;
+                vector<string> history = {};
+                cout << "At any point in account creation, enter 'X' to cancel.\n";
+                //username loop
+                while(1){
+                    input = "";
+                    cout << "Enter a username.\n>>";
+                    cin >> username;
+                    if (username == "X"){
+                        break;
+                    }
+                    if(checkUsername(username, users)){
+                        break;
+                    }
+                    else{
+                        // output handled in function
+                        continue;
+                    }
+                }
+                // this is so long i am so sorry
+                cout << "Enter a password.\n>>";
+                cin >> password;
+                cout << "Enter your first name.\n>>";
+                cin >> firstName;
+                cout << "Enter your last name.\n";
+                cin >> lastName;
+                cout << "Enter your phone number - just numbers! No spaces, dashes, or parentheses.\n>>";
+                cin >> phoneNumber;
+                cout << "Enter your email address.\n>>";
+                cin >> emailAddress;
+                cout << "Enter your billing address (just the street!).\n>>";
+                cin.ignore(); // lets you read a string with spaces
+                getline(cin, billingAddress);
+                cout << "Enter the city for your billing address.\n>>";
+                cin >> billingCity;
+                cout << "Enter the state for your billing address (initials).\n>>";
+                cin >> billingState;
+                cout << "Enter the zip code for your billing address.\n>>";
+                cin >> billingZip;
+                cout << "Enter your shipping address (just the street!).\n>>";
+                cin.ignore();
+                getline(cin, shippingAddress);
+                cout << "Enter the city for your shipping address.\n>>";
+                cin >> shippingCity;
+                cout << "Enter the state for your shipping address (initials).\n>>";
+                cin >> shippingState;
+                cout << "Enter the zip code for your shipping address.\n>>";
+                cin >> shippingZip;
+                cout << "Enter your credit card number - no spaces or dashes!\n>>";
+                cin >> cardNum;
+                cout << "Enter your credit card's CVV.\n>>";
+                cin >> cardCVV;
+                cout << "Enter your credit card's expiration date, in the format MM/YY.\n>>";
+                cin >> cardDate;
+                vector<string> shipping = {shippingAddress, shippingCity, shippingState, shippingZip};
+                vector<string> billing = {billingAddress, billingCity, billingState, billingZip};
+                vector<string> card = {cardNum, cardCVV, cardDate};
+                User newGuy(username, password, firstName, lastName, phoneNumber, emailAddress, billing, shipping, card, history);
+                users.push_back(newGuy);
+                cout << "New user created! Please log in.\n";
+                continue;
             }
             else if (numInput == 3) {
                 return 0;
+            }
+            else{
+                cout << "Invalid input, please try again.\n";
+                continue;
             }
             break; //temporary
         }
@@ -255,25 +368,57 @@ int main(){
                     "(1) View all games\n(2)View your cart\n"
                     "(3) View order history\n(4) Edit account\n"
                     "(5) Exit\n>>";
-            cin >> input;
-            // view all video games
-            if (input == "1"){
+            cin >> numInput;
+            // view all video games -- akira
+            if (numInput == 1){
 
             }
-            // view cart
-            else if (input == "2"){
+            // view cart -- samarra
+            else if (numInput == 2){
 
             }
-            // view order history
-            else if (input == "3"){
+            // view order history -- edward
+            else if (numInput == 3){
 
             }
-            // edit account
-            else if (input == "4"){
+            // edit account -- jade
+            else if (numInput == 4){
+                // account editing loop
+                while(1){
+                    input = "";
+                    cout << "Select an option:\n"
+                            "(1) Go back\n(2) Edit Contact Information\n"
+                            "(3) Edit Shipping Address\n(4) Edit Billing Address\n"
+                            "(5) Edit Payment Information\n(6) Delete Account\n>>";
+                    cin >> numInput;
+                    if (numInput == 1){ // go back
+                        // break out of editing loop, back to main loop
+                        break;
+                    }
+                    else if (numInput == 2){ // edit contact info
+                        // display contact info
 
+                    }
+                    else if (numInput == 3){
+
+                    }
+                    else if (numInput == 4){
+
+                    }
+                    else if (numInput == 5){
+
+                    }
+                    else if (numInput == 6){
+
+                    }
+                    else{
+                        cout << "Invalid input, please try again.\n";
+                        continue;
+                    }
+                }
             }
             // exit
-            else if (input == "5"){
+            else if (numInput == 5){
                 break;
             }
             else{
@@ -319,6 +464,9 @@ int main(){
     }
 
     // write to items.csv
+    for (int i = 0; i < items.size(); i++){
+
+    }
 
     // write to inventory.csv
 
