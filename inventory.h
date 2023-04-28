@@ -20,9 +20,12 @@ class Inventory
 		Inventory();
 		Inventory(vector<Item> items, vector<int> itemAmounts);
 
-		// Class Functions
-        vector<Item> getItems();
+		// Getters
+        	vector<Item> getItems();
+		vector<int> getItemAmounts();
 		int getAmount(Item item);
+	
+		// Other Class Functions
 		void removeInventory(Item item, int quantity);
 		void displayInventory();
 };
