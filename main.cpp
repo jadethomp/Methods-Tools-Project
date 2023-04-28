@@ -57,15 +57,8 @@ int readItems(vector<Item> &items){
         line.erase(0, line.find(delimiter) + delimiter.length());
         platform = line.substr(0, line.find(delimiter));
         line.erase(0, line.find(delimiter) + delimiter.length());
-<<<<<<< Updated upstream
-        releaseYear = line.substr(0, line.find(delimiter));
-        Item temp(title, genre, stof(price), publisher, platform, stoi(releaseYear));
-=======
         yearReleased = line.substr(0, line.find(delimiter));
-//        to-do: add a constructor for this, or setters
-//        Item temp(title, genre, price, publisher, platform, yearReleased);
->>>>>>> Stashed changes
-
+        Item temp(title, genre, stof(price), publisher, platform, stoi(yearReleased));
         items.push_back(temp);
     }
     infile.close();
@@ -153,11 +146,11 @@ int readInventory(Inventory &inventory, vector<Item> items){
         line.erase(0, line.find(delimiter) + delimiter.length());
         quantity = line.substr(0, line.find(delimiter));
         for(int i = 0; i < items.size(); i++){
-//            if (title == items[i].getTitle()){
-//                temp = items[i];
-//                tempItems.push_back(temp);
-//                break;
-//            }
+            if (title == items[i].getTitle()){
+                temp = items[i];
+                tempItems.push_back(temp);
+                break;
+            }
         }
         tempQuantities.push_back(stoi(quantity));
     }
@@ -719,7 +712,7 @@ int main(){
         if (i != 0){
             outfile << endl;
         }
-//        outfile << items[i].getTitle() << delimiter;
+        outfile << items[i].getTitle() << delimiter;
         outfile << items[i].getGenre("") << delimiter;
         outfile << to_string(items[i].getPrice("")) << delimiter;
         outfile << items[i].getPublisher("") << delimiter;
@@ -730,10 +723,6 @@ int main(){
 
     // write to inventory.csv
     outfile.open("inventory.csv", ios_base::out);
-<<<<<<< Updated upstream
-=======
-    /*
->>>>>>> Stashed changes
     for (int i = 0; i < inventory.getItems().size(); i++){
         if (i != 0){
             outfile << endl;
@@ -742,10 +731,6 @@ int main(){
         outfile << temp.getTitle() << delimiter;
         outfile << inventory.getAmount(temp);
     }
-<<<<<<< Updated upstream
-=======
-    */
->>>>>>> Stashed changes
     outfile.close();
 
     // write to carts.csv
