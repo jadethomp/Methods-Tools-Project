@@ -167,7 +167,7 @@ int readCart(vector<User> users, vector<Item> items, vector<ShoppingCart> &carts
     string line;
     vector<string> itemTitles;
     vector<Item> tempItems;
-    User tempUser;
+//    User tempUser;
     Item tempItem;
     while(getline(infile, line)){
         string username;
@@ -183,12 +183,12 @@ int readCart(vector<User> users, vector<Item> items, vector<ShoppingCart> &carts
             line.erase(0, line.find(delimiter) + delimiter.length());
             itemTitles.push_back(temp);
         }
-        for (int i = 0; i < users.size(); i++){
-            if (username == users[i].getUsername()){
-                tempUser = users[i];
-                break;
-            }
-        }
+//        for (int i = 0; i < users.size(); i++){
+//            if (username == users[i].getUsername()){
+//                tempUser = users[i];
+//                break;
+//            }
+//        }
         for (int i = 0; i < itemTitles.size(); i++){
             for (int j = 0; j < items.size(); j++){
 //                if (itemTitles[i] == items[j].getTitle()){
@@ -198,7 +198,7 @@ int readCart(vector<User> users, vector<Item> items, vector<ShoppingCart> &carts
 //                }
             }
         }
-//        ShoppingCart tempCart(tempUser, tempItems);
+//        ShoppingCart tempCart(username, tempItems);
 //        cart.push_back(tempCart);
     }
     infile.close();
@@ -281,6 +281,9 @@ int main(){
                     }
                     // extra one to break completely out of login loop
                     if (input == "X"){
+                        break;
+                    }
+                    else if (loggedIn == 1){
                         break;
                     }
                 }
@@ -433,6 +436,7 @@ int main(){
                         continue;
                     }
                 }
+                continue;
             }
 
                 // view cart -- samarra
@@ -717,9 +721,6 @@ int main(){
                 }
             }
             // exit program
-            if (numInput == 6){
-                break;
-            }
                 // exit
             else if (numInput == 5){
                 break;
@@ -727,6 +728,9 @@ int main(){
             else{
                 cout << "Invalid input, please try again.\n";
                 continue; //maybe not necessary
+            }
+            if (numInput == 6){
+                break;
             }
         }
         if (loggedIn == 0){
