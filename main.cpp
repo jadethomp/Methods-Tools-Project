@@ -237,7 +237,7 @@ int main(){
         //pre-login loop
         while (loggedIn == 0) {
             cout << "Please select an option to continue.\n"
-                    "(1)Login\n(2)Create Account\n(3)Exit\n>>";
+                    "(1) Login\n(2) Create Account\n(3) Exit\n>>";
             cin >> numInput;
             if (numInput == 1) {
                 //login loop
@@ -268,6 +268,7 @@ int main(){
                         cout << "Enter your password, or enter X to cancel.\n>>";
                         cin >> input;
                         if (input == "X"){
+                            loggedIn = 0;
                             break;
                         }
                         if (input == current.getPassword()){
@@ -349,6 +350,7 @@ int main(){
                 User newGuy(username, password, firstName, lastName, phoneNumber, emailAddress, billing, shipping, card, history);
                 users.push_back(newGuy);
                 cout << "New user created! Please log in.\n";
+                loggedIn = 0; //just to make sure
                 continue;
             }
             else if (numInput == 3) {
@@ -361,11 +363,11 @@ int main(){
             break; //temporary
         }
         //they made it through! post-login menu goes below...
-        while(1){
+        while(loggedIn == 1){
             // resets input
             input = "";
             cout << "Select an option:\n"
-                    "(1) View all games\n(2)View your cart\n"
+                    "(1) View all games\n(2) View your cart\n"
                     "(3) View order history\n(4) Edit account\n"
                     "(5) Exit\n>>";
             cin >> numInput;
@@ -726,6 +728,9 @@ int main(){
                 cout << "Invalid input, please try again.\n";
                 continue; //maybe not necessary
             }
+        }
+        if (loggedIn == 0){
+            continue;
         }
         break; //only executes upon exit
     }
