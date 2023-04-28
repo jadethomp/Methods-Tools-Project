@@ -223,6 +223,14 @@ int main(){
     vector<Item> items;
     Inventory inventory;
     // vector<ShoppingCart> carts;
+    // ShoppingCart currentCart;
+    // find current cart
+    /*for (int i = 0; i < carts.size(); i++){
+        if (carts[i].getUsername() == current.getUsername()){
+            currentCart = carts[i];
+            break;
+        }
+    }*/
 
     //read in files
     checkError(readItems(items), "readItems");
@@ -357,6 +365,7 @@ int main(){
                 continue;
             }
             else if (numInput == 3) {
+                cout << "Thank you for shopping with us. Please come back soon!\nExiting...\n";
                 return 0;
             }
             else{
@@ -385,7 +394,7 @@ int main(){
                     // Asks the user if they would like to add a game to the cart
                     cout << "Would you like to add a game to your shopping cart?" << endl;
                     cout << "Select an option\n"
-                            "(1) Add to cart\n(2)Exit\n>>";
+                            "(1) Add to cart\n(2) Exit\n>>";
 
                     // Resetting input
                     numInput = -1;
@@ -399,19 +408,24 @@ int main(){
                         while(1)
                         {
                             cout << "Which game would you like to purchase?" << endl;
-                            cout << "Input the number found at the beginning of the line. Select 0 to exit.";
+                            cout << "Input the number found at the beginning of the line. Select 0 to exit.\n>>";
 
                             // Resetting input
                             numInput = -1;
 
                             // Prompting user for input
                             cin >> numInput;
+                            if (numInput == 0){
+                                break;
+                            }
 
                             // Making sure that the item is in stock
                             Item temp = inventory.getItems()[numInput - 1];
                             if (inventory.getAmount(temp) > 0)
                             {
-                                // TODO: Add the item to the cart (I don't think this function exists yet)
+//                                currentCart.addItem(temp, 1);
+                                inventory.removeInventory(temp, 1);
+                                break;
                             }
 
                             else
@@ -441,7 +455,11 @@ int main(){
 
                 // view cart -- samarra
             else if (numInput == 2){
-                // need to display cart here!!!
+                // displays cart
+//                vector<Item> temp = currentCart.viewCart();
+                /*for (int i = 0; i < temp.size(); i++){
+                    cout << "Item " << i + 1 << " --- Name: " << temp[i].getTitle() << "\tPlatform: " << temp[i].getPlatform() << "\tPrice: " << temp[i].getPrice() << endl;
+                }*/
                 //cart editing loop
                 while(1){
                     input = "";
@@ -457,7 +475,7 @@ int main(){
                         cout << "Select an option:\n(1) Confirm\n (2) Cancel.\n";
                         cin >> numInput;
                         if (numInput = 1){
-//                        removeItem();
+//                        currentCart.removeItem(temp);
                         }
                         else if (numInput = 2){
                             break;
@@ -471,7 +489,7 @@ int main(){
                         cout << "Select an option:\n(1) Confirm\n (2) Cancel.\n";
                         cin >> numInput;
                         if (numInput = 1){
-//                            checkout();
+//                            currentCart.checkout();
                         }
                         else if (numInput = 2){
                             break;
@@ -482,7 +500,7 @@ int main(){
                         }
                     }
                     else if (numInput == 4){ //Clear cart
-//                        emptyCart();
+//                        currentCart.emptyCart();
                         cout << "Clearing cart.\n";
                         break;
                     }
@@ -819,6 +837,8 @@ int main(){
     }
     */
     outfile.close();
+
+    cout << "Thank you for shopping with us. Please come back soon!\nExiting...\n";
 
     return 0;
 }
