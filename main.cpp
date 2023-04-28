@@ -405,7 +405,9 @@ int main(){
                             // Making sure that the item is in stock
                             if (inventory.itemAmounts[i - 1] > 0)
                             {
-                                // TODO: Add the item to the cart (I don't think this function exists yet)                         
+                                // TODO: Add the item to the cart (I don't think this function exists yet)
+                                
+                                break;
                             }
                             
                             else
