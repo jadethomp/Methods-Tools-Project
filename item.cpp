@@ -13,6 +13,15 @@ Item::Item() {
     yearReleased = NULL;
 }
 
+Item::Item(string title, string genre, double price, string publisher, string platform, int yearReleased){
+    this->title = title;
+    this->genre = genre;
+    this->price = price;
+    this->publisher = publisher;
+    this->platform = platform;
+    this->yearReleased = yearReleased;
+}
+
 string Item::getTitle() {
     return title;
 }

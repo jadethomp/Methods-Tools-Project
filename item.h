@@ -16,6 +16,7 @@ private:
 public:
     //constructor
     Item();
+    Item(string title, string genre, double price, string publisher, string platform,  int yearReleased);
 
     //getters
     string getTitle();
