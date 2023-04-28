@@ -368,10 +368,69 @@ int main(){
                     "(3) View order history\n(4) Edit account\n"
                     "(5) Exit\n>>";
             cin >> numInput;
+            
             // view all video games -- akira
             if (numInput == 1){
+                // Displaying the current inventory
+                inventory.displayInventory();
+                
+                while (1)
+                {
+                    // Asks the user if they would like to add a game to the cart
+                    cout << "Would you like to add a game to your shopping cart?" << endl;
+                    cout << "Select an option"\n"
+                            "(1) Add to cart\n(2)Exit\n>>";
 
+                    // Resetting input
+                    numInput = -1;
+
+                    // Prompting user for input
+                    cin >> numInput;
+                    
+                    // Adding to cart
+                    if (numInput == 1)
+                    {
+                        while(1)
+                        {
+                            cout << "Which game would you like to purchase?" << endl;
+                            cout << "Input the number found at the beginning of the line. Select 0 to exit.";
+                            
+                            // Resetting input
+                            numInput = -1;
+                            
+                            // Prompting user for input
+                            cin >> numInput;
+                            
+                            // Making sure that the item is in stock
+                            if (inventory.itemAmounts[i - 1] > 0)
+                            {
+                                // TODO: Add the item to the cart (I don't think this function exists yet)                         
+                            }
+                            
+                            else
+                            {
+                                cout << "Sorry, that item is currently not in stock. Check back later." << endl;
+                                break;
+                            }
+                        }
+                        
+                        continue;
+                    }
+                    
+                    // Exiting
+                    else if (numInput == 2)
+                    {
+                        break;
+                    }
+                    
+                    else
+                    {
+                        cout << "Invalid input, please try again.\n";
+                        continue;
+                    }
+               }
             }
+            
             // view cart -- samarra
             else if (numInput == 2){
                 //cart editing loop
@@ -397,6 +456,7 @@ int main(){
                         }
                         else{
                             cout << "Invalid input, please try again.\n";
+                            inventory.displayInventory();
                             continue;
                         }
                     }
@@ -421,6 +481,7 @@ int main(){
                     }
                     else{
                         cout << "Invalid input, please try again.\n";
+                        inventory.displayInventory();
                         continue;
                     }
                     }
