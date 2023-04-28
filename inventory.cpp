@@ -2,7 +2,6 @@
 #include <vector>
 #include <string>
 #include <fstream>
-#include "item.h"
 #include "inventory.h"
 
 using namespace std;

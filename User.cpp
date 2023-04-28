@@ -7,8 +7,8 @@
 using namespace std;
 
 User::User(){
-    username = nullptr;
-    password = nullptr;
+    username = "";
+    password = "";
 }
 
 User::User(string username, string password, string firstName, string lastName, string phoneNumber, string emailAddress, 

@@ -158,6 +158,7 @@ int readInventory(Inventory &inventory, vector<Item> items){
     inventory = tempInventory;
     infile.close();
     infile.clear();
+    return 0;
 }
 
 /*
@@ -433,38 +434,37 @@ int main(){
             
             // view cart -- samarra
             else if (numInput == 2){
+                // need to display cart here!!!
                 //cart editing loop
                 while(1){
                     input = "";
                     cout << "Select an option:\n"
-                            "(1) Go back\n(2) Edit Contact Information\n"
-                            "(3) Edit Shipping Address\n(4) Edit Billing Address\n"
-                            "(5) Edit Payment Information\n(6) Delete Account\n>>";
+                            "(1) Go back\n(2) Remove Item from Cart\n"
+                            "(3) Checkout\n(4) Clear Cart\n>>";
                     cin >> numInput;
                     if (numInput == 1){ // go back
                         // break out of editing loop, back to main loop
                         break;
                     }
                     else if (numInput == 2){ //Remove item from cart
-                        cout << "Selct an option:\n(1) Confirm\n (2) Cancel.\n";
+                        cout << "Select an option:\n(1) Confirm\n (2) Cancel.\n";
                         cin >> numInput;
                         if (numInput = 1){
-                        removeItem();
+//                        removeItem();
                         }
                         else if (numInput = 2){
                             break;
                         }
                         else{
                             cout << "Invalid input, please try again.\n";
-                            inventory.displayInventory();
                             continue;
                         }
                     }
                     else if (numInput == 3){ //Check out
-                        cout << "Selct an option:\n(1) Confirm\n (2) Cancel.\n";
+                        cout << "Select an option:\n(1) Confirm\n (2) Cancel.\n";
                         cin >> numInput;
                         if (numInput = 1){
-                            checkout();
+//                            checkout();
                         }
                         else if (numInput = 2){
                             break;
@@ -475,15 +475,13 @@ int main(){
                         }
                     }
                     else if (numInput == 4){ //Clear cart
-                        emptyCart();
+//                        emptyCart();
                         cout << "Clearing cart.\n";
                         break;
                     }
                     else{
                         cout << "Invalid input, please try again.\n";
-                        inventory.displayInventory();
                         continue;
-                    }
                     }
                 }
             }

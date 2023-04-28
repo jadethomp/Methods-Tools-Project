@@ -5,12 +5,12 @@
 using namespace std;
 
 Item::Item() {
-    title = nullptr;
-    genre = nullptr;
-    price = NULL;
-    publisher = nullptr;
-    platform = nullptr;
-    yearReleased = NULL;
+    title = "";
+    genre = "";
+    price = -1;
+    publisher = "";
+    platform = "";
+    yearReleased = -1;
 }
 
 Item::Item(string title, string genre, double price, string publisher, string platform, int yearReleased){
