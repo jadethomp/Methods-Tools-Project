@@ -406,7 +406,9 @@ int main(){
                             Item temp = inventory.getItems()[numInput - 1];
                             if (inventory.getAmount(temp) > 0)
                             {
-                                // TODO: Add the item to the cart (I don't think this function exists yet)                         
+                                // TODO: Add the item to the cart (I don't think this function exists yet)
+                                
+                                break;
                             }
 
                             else
