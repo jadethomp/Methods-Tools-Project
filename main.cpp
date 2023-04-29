@@ -484,7 +484,7 @@ int main(){
                         if (numInput == 0){
                             break;
                         }
-                        cout << "Select an option:\n(1) Confirm\n (2) Cancel.\n";
+                        cout << "Select an option:\n(1) Confirm\n(2) Cancel.\n";
                         cin >> numInput;
                         if (numInput = 1){
 //                        currentCart.removeItem(temp[numInput - 1]);
@@ -498,7 +498,7 @@ int main(){
                         }
                     }
                     else if (numInput == 3){ //Check out
-                        cout << "Select an option:\n(1) Confirm\n (2) Cancel.\n";
+                        cout << "Select an option:\n(1) Confirm\n(2) Cancel.\n";
                         cin >> numInput;
                         if (numInput = 1){
 //                            currentCart.checkout();
