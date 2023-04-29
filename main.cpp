@@ -360,6 +360,8 @@ int main(){
                 vector<string> card = {cardNum, cardCVV, cardDate};
                 User newGuy(username, password, firstName, lastName, phoneNumber, emailAddress, billing, shipping, card, history);
                 users.push_back(newGuy);
+//                ShoppingCart newCart(username);
+//                carts.push_back(newCart);
                 cout << "New user created! Please log in.\n";
                 loggedIn = 0; //just to make sure
                 continue;
@@ -803,10 +805,10 @@ int main(){
         }
         outfile << items[i].getTitle() << delimiter;
         outfile << items[i].getGenre("") << delimiter;
-        outfile << to_string(items[i].getPrice("")) << delimiter;
+        outfile << items[i].getPrice("") << delimiter;
         outfile << items[i].getPublisher("") << delimiter;
         outfile << items[i].getPlatform("") << delimiter;
-        outfile << to_string(items[i].getYear(""));
+        outfile << items[i].getYear("");
     }
     outfile.close();
 
