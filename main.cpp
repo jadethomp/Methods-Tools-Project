@@ -424,7 +424,7 @@ int main(){
                             if (inventory.getAmount(temp) > 0)
                             {
 //                                currentCart.addItem(temp, 1);
-                                inventory.removeInventory(temp, 1);
+                                // doesn't remove from inventory until checkout
                                 break;
                             }
 
@@ -490,6 +490,7 @@ int main(){
                         cin >> numInput;
                         if (numInput = 1){
 //                            currentCart.checkout();
+                            // if not included in checkout, update inventory and order history
                         }
                         else if (numInput = 2){
                             break;
