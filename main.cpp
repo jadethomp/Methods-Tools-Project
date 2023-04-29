@@ -325,7 +325,7 @@ int main(){
                 cin >> password;
                 cout << "Enter your first name.\n>>";
                 cin >> firstName;
-                cout << "Enter your last name.\n";
+                cout << "Enter your last name.\n>>";
                 cin >> lastName;
                 cout << "Enter your phone number - just numbers! No spaces, dashes, or parentheses.\n>>";
                 cin >> phoneNumber;
@@ -426,6 +426,7 @@ int main(){
                             if (inventory.getAmount(temp) > 0)
                             {
 //                                currentCart.addItem(temp, 1);
+                                cout << "Added to cart.\n";
                                 // doesn't remove from inventory until checkout
                                 break;
                             }
@@ -436,8 +437,7 @@ int main(){
                                 break;
                             }
                         }
-
-                        continue;
+                        break;
                     }
 
                         // Exiting
