@@ -474,10 +474,20 @@ int main(){
                         break;
                     }
                     else if (numInput == 2){ //Remove item from cart
+                        // display cart again
+                        /*for (int i = 0; i < temp.size(); i++){
+                            cout << "Item " << i + 1 << " --- Name: " << temp[i].getTitle() << "\tPlatform: " << temp[i].getPlatform() << "\tPrice: " << temp[i].getPrice() << endl;
+                        }*/
+                        cout << "Which game would you like to remove?" << endl;
+                        cout << "Input the number found at the beginning of the line. Select 0 to exit.\n>>";
+                        cin >> numInput;
+                        if (numInput == 0){
+                            break;
+                        }
                         cout << "Select an option:\n(1) Confirm\n (2) Cancel.\n";
                         cin >> numInput;
                         if (numInput = 1){
-//                        currentCart.removeItem(temp);
+//                        currentCart.removeItem(temp[numInput - 1]);
                         }
                         else if (numInput = 2){
                             break;
