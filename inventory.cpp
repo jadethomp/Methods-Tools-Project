@@ -46,6 +46,7 @@ int Inventory::getAmount(Item item)
 			return itemAmounts[i];
 		}
 	}
+	return 0;
 }
 
 // Removes the desired quantity of the desired item

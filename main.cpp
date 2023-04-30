@@ -5,12 +5,13 @@
 #include <errno.h>
 #include <ctype.h>
 #include <algorithm>
+#include <sstream>
 using namespace std;
 
 #include "User.h"
 #include "item.h"
 #include "inventory.h"
-// #include "ShoppingCart.h"
+#include "cart.h"
 
 // checks if the username is valid
 bool checkUsername(string username, vector<User> users){
@@ -205,7 +206,21 @@ int readCart(vector<User> users, vector<Item> items, vector<ShoppingCart> &carts
     infile.clear();
 }
 */
-
+int readCart(vector<vector<string>> &allCarts, vector<string> &currentCart){
+    ifstream infile;
+    string line;
+    infile.open("cart.csv",ios::in);
+    while(getline(infile,line)){
+        stringstream s(line);
+        string word;
+        while(getline(s,word,',' )){
+            currentCart.push_back(word);
+        }
+        allCarts.push_back(currentCart);
+        currentCart.clear();
+    }
+    return 0;
+}
 int checkError(int val, const char* msg){
     if (val == -1){
         perror(msg);
@@ -222,22 +237,16 @@ int main(){
     vector<User> users;
     vector<Item> items;
     Inventory inventory;
-    // vector<ShoppingCart> carts;
-    // ShoppingCart currentCart;
-    // find current cart
-    /*for (int i = 0; i < carts.size(); i++){
-        if (carts[i].getUsername() == current.getUsername()){
-            currentCart = carts[i];
-            break;
-        }
-    }*/
-
+    vector<vector<string>> allCCarts;
+    vector<string> userCart;
+    vector<Item> cartItems;
     //read in files
     checkError(readItems(items), "readItems");
     checkError(readUsers(users), "readUsers");
     checkError(readInventory(inventory, items), "readInventory");
-//    checkError(readCart(users, items, &carts), "readCart");
+    checkError(readCart(allCCarts, userCart), "readCart");
 
+    cart currentCart(allCCarts,items);
 
     cout << "Welcome to Totally Real Games - the best e-commerce store in town!" << endl;
     //main loop
@@ -385,7 +394,6 @@ int main(){
                     "(3) View order history\n(4) Edit account\n"
                     "(5) Exit\n>>";
             cin >> numInput;
-
             // view all video games -- akira
             if (numInput == 1){
                 // Displaying the current inventory
@@ -403,7 +411,7 @@ int main(){
 
                     // Prompting user for input
                     cin >> numInput;
-
+                    
                     // Adding to cart
                     if (numInput == 1)
                     {
@@ -425,7 +433,7 @@ int main(){
                             Item temp = inventory.getItems()[numInput - 1];
                             if (inventory.getAmount(temp) > 0)
                             {
-//                                currentCart.addItem(temp, 1);
+                                currentCart.addItem(current.getUsername(),temp, 1);
                                 cout << "Added to cart.\n";
                                 // doesn't remove from inventory until checkout
                                 break;
@@ -458,10 +466,11 @@ int main(){
                 // view cart -- samarra
             else if (numInput == 2){
                 // displays cart
-//                vector<Item> temp = currentCart.viewCart();
-                /*for (int i = 0; i < temp.size(); i++){
-                    cout << "Item " << i + 1 << " --- Name: " << temp[i].getTitle() << "\tPlatform: " << temp[i].getPlatform() << "\tPrice: " << temp[i].getPrice() << endl;
-                }*/
+                vector<Item> temp = currentCart.viewCart(current.getUsername());
+                for (int i = 0; i < temp.size(); i++){
+                    
+                    cout << "Item " << i + 1 << " --- Name: " << temp[i].getTitle() << "\tPlatform: " << temp[i].getPlatform(temp[i].getTitle()) << "\tPrice: " << temp[i].getPrice(temp[i].getTitle()) << endl;
+                }
                 //cart editing loop
                 while(1){
                     input = "";
@@ -487,7 +496,7 @@ int main(){
                         cout << "Select an option:\n(1) Confirm\n(2) Cancel.\n";
                         cin >> numInput;
                         if (numInput = 1){
-//                        currentCart.removeItem(temp[numInput - 1]);
+                        currentCart.removeItem(current.getUsername(),temp[numInput - 1]);
                         }
                         else if (numInput = 2){
                             break;
@@ -501,7 +510,7 @@ int main(){
                         cout << "Select an option:\n(1) Confirm\n(2) Cancel.\n";
                         cin >> numInput;
                         if (numInput = 1){
-//                            currentCart.checkout();
+                           currentCart.checkout(inventory,current.getUsername(),current);
                             // if not included in checkout, update inventory and order history
                         }
                         else if (numInput = 2){
@@ -513,7 +522,7 @@ int main(){
                         }
                     }
                     else if (numInput == 4){ //Clear cart
-//                        currentCart.emptyCart();
+                        currentCart.emptyCart(current.getUsername());
                         cout << "Clearing cart.\n";
                         break;
                     }
@@ -525,7 +534,24 @@ int main(){
             }
                 // view order history -- edward
             else if (numInput == 3) {
-
+                while(1){
+                    cout <<"Order History: \n";
+                    vector<string> history = current.getHistory();
+                    cout << history.size();
+                    for (int i = 0; i < history.size(); i++)
+                    {
+                        cout << history[i] <<"\n";
+                                
+                    }
+                    cout<<"(1) Go back\n";
+                    cin >> numInput;
+                    if (numInput ==1)
+                    {
+                        break;
+                    }
+                    
+                    
+                }
             }
                 // edit account -- jade
             else if (numInput == 4){
@@ -773,10 +799,12 @@ int main(){
 
     // write to .csv files
     ofstream outfile;
+    ofstream cartFile;
     outfile.open("users.csv", ios_base::out);
     string delimiter = ",";
 
     // write to users.csv
+    
     for (int i = 0; i < users.size(); i++){
         if (i != 0){
             outfile << endl;
@@ -802,9 +830,12 @@ int main(){
             outfile << users[i].getHistory()[j] << delimiter;
         }
         outfile << "END";
+        string starting = users[i].getUsername() +"," +"END\n";
+        cartFile << starting;
+        
     }
     outfile.close();
-
+    cartFile.close();
     // write to items.csv
     //...turns out we do not need the title in the parameter for these getters
     //...no biggie
@@ -835,7 +866,7 @@ int main(){
     outfile.close();
 
     // write to carts.csv
-    outfile.open("carts.csv", ios_base::out);
+    
     /*
     for (int i = 0; i < carts.size(); i++){
         if (i != 0){
@@ -849,7 +880,10 @@ int main(){
         outfile << "END";
     }
     */
+
+
     outfile.close();
+
 
     cout << "Thank you for shopping with us. Please come back soon!\nExiting...\n";
 
