@@ -162,8 +162,8 @@ int readInventory(Inventory &inventory, vector<Item> items){
     return 0;
 }
 
-/*
-int readCart(vector<User> users, vector<Item> items, vector<ShoppingCart> &carts){
+
+int readCart(vector<User> users, vector<Item> items, vector<cart> &allCarts){
     ifstream infile;
     string line;
     vector<string> itemTitles;
@@ -192,20 +192,20 @@ int readCart(vector<User> users, vector<Item> items, vector<ShoppingCart> &carts
 //        }
         for (int i = 0; i < itemTitles.size(); i++){
             for (int j = 0; j < items.size(); j++){
-//                if (itemTitles[i] == items[j].getTitle()){
-//                    tempItem = items[j];
-//                    tempItems.push_back(tempItem);
-//                    break;
-//                }
+                if (itemTitles[i] == items[j].getTitle()){
+                    tempItem = items[j];
+                    tempItems.push_back(tempItem);
+                    break;
+                }
             }
         }
-//        ShoppingCart tempCart(username, tempItems);
-//        cart.push_back(tempCart);
+        cart tempCart(username, tempItems);
+        cart.push_back(tempCart);
     }
     infile.close();
     infile.clear();
 }
-*/
+
 int readCart(vector<vector<string>> &allCarts, vector<string> &currentCart){
     ifstream infile;
     string line;
@@ -237,16 +237,16 @@ int main(){
     vector<User> users;
     vector<Item> items;
     Inventory inventory;
-    vector<vector<string>> allCCarts;
+    vector<cart> allCarts;
     vector<string> userCart;
     vector<Item> cartItems;
     //read in files
     checkError(readItems(items), "readItems");
     checkError(readUsers(users), "readUsers");
     checkError(readInventory(inventory, items), "readInventory");
-    checkError(readCart(allCCarts, userCart), "readCart");
+    checkError(readCart(allCarts, userCart), "readCart");
 
-    cart currentCart(allCCarts,items);
+    cart currentCart(allCarts,items);
 
     cout << "Welcome to Totally Real Games - the best e-commerce store in town!" << endl;
     //main loop
@@ -369,8 +369,8 @@ int main(){
                 vector<string> card = {cardNum, cardCVV, cardDate};
                 User newGuy(username, password, firstName, lastName, phoneNumber, emailAddress, billing, shipping, card, history);
                 users.push_back(newGuy);
-//                ShoppingCart newCart(username);
-//                carts.push_back(newCart);
+                cart newCart(username);
+                allCarts.push_back(newCart);
                 cout << "New user created! Please log in.\n";
                 loggedIn = 0; //just to make sure
                 continue;
@@ -484,9 +484,9 @@ int main(){
                     }
                     else if (numInput == 2){ //Remove item from cart
                         // display cart again
-                        /*for (int i = 0; i < temp.size(); i++){
+                        for (int i = 0; i < temp.size(); i++){
                             cout << "Item " << i + 1 << " --- Name: " << temp[i].getTitle() << "\tPlatform: " << temp[i].getPlatform() << "\tPrice: " << temp[i].getPrice() << endl;
-                        }*/
+                        }
                         cout << "Which game would you like to remove?" << endl;
                         cout << "Input the number found at the beginning of the line. Select 0 to exit.\n>>";
                         cin >> numInput;
@@ -866,20 +866,19 @@ int main(){
     outfile.close();
 
     // write to carts.csv
-    
-    /*
-    for (int i = 0; i < carts.size(); i++){
+
+    for (int i = 0; i < allCarts.size(); i++){
         if (i != 0){
             outfile << endl;
         }
-        outfile << carts[i].getUsername() << delimiter;
-        for (int j = 0; j < carts.viewCart().size(); j++){
-            Item temp = carts.viewCart()[j];
+        outfile << allCarts[i].getUsername() << delimiter;
+        for (int j = 0; j < allCarts.viewCart(current.getUsername()).size(); j++){
+            Item temp = allCarts.viewCart(current.getUsername())[j];
             outfile << temp.getTitle() << delimiter;
         }
         outfile << "END";
     }
-    */
+
 
 
     outfile.close();
