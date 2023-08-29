@@ -85,14 +85,11 @@ void cart::removeItem(Item item){
 
 void cart::checkout(User &user, Inventory &inventory){
     vector<Item> temp = this->viewCart();
-    cout << "inside checkout: temp assigned" << endl;
     for (int i = 0; i < temp.size(); i++) {
         inventory.removeInventory(temp[i],1);
         user.addToHistory(temp[i].getTitle());
     }
-    cout << "inside checkout: past for loop" << endl;
     this->emptyCart();
-    cout << "inside checkout: complete" << endl;
 }
 
 void cart::emptyCart(){
