@@ -79,8 +79,8 @@ void Inventory::displayInventory()
 	{
 		// Grabbing the appropriate information
 		gameName = items[i].getTitle();
-		gamePlatform = items[i].getPlatform("");
-		gamePrice = items[i].getPrice("");
+		gamePlatform = items[i].getPlatform();
+		gamePrice = items[i].getPrice();
 		gameQuantity = itemAmounts[i];
 
 		// Displaying the data

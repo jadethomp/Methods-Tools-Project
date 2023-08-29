@@ -23,11 +23,11 @@ public:
 
     //getters
     string getTitle();
-    string getGenre(string title);
-    double getPrice(string title);
-    string getPublisher(string title);
-    string getPlatform(string title);
-    int getYear(string title);
+    string getGenre();
+    double getPrice();
+    string getPublisher();
+    string getPlatform();
+    int getYear();
 };
 
 #endif //METHODS_TOOLS_PROJECT_ITEM_H

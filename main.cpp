@@ -168,7 +168,7 @@ int readCart(vector<User> users, vector<Item> items, vector<cart> &allCarts){
     string line;
     vector<string> itemTitles;
     vector<Item> tempItems;
-//    User tempUser;
+    User tempUser;
     Item tempItem;
     while(getline(infile, line)){
         string username;
@@ -184,12 +184,12 @@ int readCart(vector<User> users, vector<Item> items, vector<cart> &allCarts){
             line.erase(0, line.find(delimiter) + delimiter.length());
             itemTitles.push_back(temp);
         }
-//        for (int i = 0; i < users.size(); i++){
-//            if (username == users[i].getUsername()){
-//                tempUser = users[i];
-//                break;
-//            }
-//        }
+        for (int i = 0; i < users.size(); i++){
+            if (username == users[i].getUsername()){
+                tempUser = users[i];
+                break;
+            }
+        }
         for (int i = 0; i < itemTitles.size(); i++){
             for (int j = 0; j < items.size(); j++){
                 if (itemTitles[i] == items[j].getTitle()){
@@ -199,28 +199,29 @@ int readCart(vector<User> users, vector<Item> items, vector<cart> &allCarts){
                 }
             }
         }
-        cart tempCart(username, tempItems);
-        cart.push_back(tempCart);
+        cart tempCart(tempUser, tempItems);
+        allCarts.push_back(tempCart);
     }
     infile.close();
     infile.clear();
 }
 
-int readCart(vector<vector<string>> &allCarts, vector<string> &currentCart){
-    ifstream infile;
-    string line;
-    infile.open("cart.csv",ios::in);
-    while(getline(infile,line)){
-        stringstream s(line);
-        string word;
-        while(getline(s,word,',' )){
-            currentCart.push_back(word);
-        }
-        allCarts.push_back(currentCart);
-        currentCart.clear();
-    }
-    return 0;
-}
+//int readCart(vector<vector<string>> &allCarts, vector<string> &currentCart){
+//    ifstream infile;
+//    string line;
+//    infile.open("cart.csv",ios::in);
+//    while(getline(infile,line)){
+//        stringstream s(line);
+//        string word;
+//        while(getline(s,word,',' )){
+//            currentCart.push_back(word);
+//        }
+//        allCarts.push_back(currentCart);
+//        currentCart.clear();
+//    }
+//    return 0;
+//}
+
 int checkError(int val, const char* msg){
     if (val == -1){
         perror(msg);
@@ -234,19 +235,18 @@ int main(){
     int loggedIn = 0;
     string input;
     User current;
+    cart currentCart;
     vector<User> users;
     vector<Item> items;
     Inventory inventory;
     vector<cart> allCarts;
-    vector<string> userCart;
-    vector<Item> cartItems;
+//    vector<string> userCart;
+//    vector<Item> cartItems;
     //read in files
     checkError(readItems(items), "readItems");
     checkError(readUsers(users), "readUsers");
     checkError(readInventory(inventory, items), "readInventory");
-    checkError(readCart(allCarts, userCart), "readCart");
-
-    cart currentCart(allCarts,items);
+    checkError(readCart(users, items, allCarts), "readCart");
 
     cout << "Welcome to Totally Real Games - the best e-commerce store in town!" << endl;
     //main loop
@@ -286,10 +286,17 @@ int main(){
                         cin >> input;
                         if (input == "X"){
                             loggedIn = 0;
+//                            current = NULL;
                             break;
                         }
                         if (input == current.getPassword()){
                             loggedIn = 1;
+                            // set currentCart
+                            for (int i = 0; i < allCarts.size(); i++){
+                                if(allCarts[i].getUsername() == current.getUsername()){
+                                    currentCart = allCarts[i];
+                                }
+                            }
                         }
                         else{
                             cout << "Incorrect password. Try again.\n";
@@ -369,7 +376,7 @@ int main(){
                 vector<string> card = {cardNum, cardCVV, cardDate};
                 User newGuy(username, password, firstName, lastName, phoneNumber, emailAddress, billing, shipping, card, history);
                 users.push_back(newGuy);
-                cart newCart(username);
+                cart newCart(newGuy);
                 allCarts.push_back(newCart);
                 cout << "New user created! Please log in.\n";
                 loggedIn = 0; //just to make sure
@@ -433,7 +440,7 @@ int main(){
                             Item temp = inventory.getItems()[numInput - 1];
                             if (inventory.getAmount(temp) > 0)
                             {
-                                currentCart.addItem(current.getUsername(),temp, 1);
+                                currentCart.addItem(temp, 1);
                                 cout << "Added to cart.\n";
                                 // doesn't remove from inventory until checkout
                                 break;
@@ -466,10 +473,10 @@ int main(){
                 // view cart -- samarra
             else if (numInput == 2){
                 // displays cart
-                vector<Item> temp = currentCart.viewCart(current.getUsername());
+                vector<Item> temp = currentCart.viewCart();
                 for (int i = 0; i < temp.size(); i++){
                     
-                    cout << "Item " << i + 1 << " --- Name: " << temp[i].getTitle() << "\tPlatform: " << temp[i].getPlatform(temp[i].getTitle()) << "\tPrice: " << temp[i].getPrice(temp[i].getTitle()) << endl;
+                    cout << "Item " << i + 1 << " --- Name: " << temp[i].getTitle() << "\tPlatform: " << temp[i].getPlatform() << "\tPrice: " << temp[i].getPrice() << endl;
                 }
                 //cart editing loop
                 while(1){
@@ -496,7 +503,8 @@ int main(){
                         cout << "Select an option:\n(1) Confirm\n(2) Cancel.\n";
                         cin >> numInput;
                         if (numInput = 1){
-                        currentCart.removeItem(current.getUsername(),temp[numInput - 1]);
+                            currentCart.removeItem(temp[numInput - 1]);
+                            break;
                         }
                         else if (numInput = 2){
                             break;
@@ -510,8 +518,9 @@ int main(){
                         cout << "Select an option:\n(1) Confirm\n(2) Cancel.\n";
                         cin >> numInput;
                         if (numInput = 1){
-                           currentCart.checkout(inventory,current.getUsername(),current);
-                            // if not included in checkout, update inventory and order history
+                           currentCart.checkout(current, inventory);
+                           cout << "Checkout complete." << endl;
+                           break;
                         }
                         else if (numInput = 2){
                             break;
@@ -522,7 +531,7 @@ int main(){
                         }
                     }
                     else if (numInput == 4){ //Clear cart
-                        currentCart.emptyCart(current.getUsername());
+                        currentCart.emptyCart();
                         cout << "Clearing cart.\n";
                         break;
                     }
@@ -537,7 +546,7 @@ int main(){
                 while(1){
                     cout <<"Order History: \n";
                     vector<string> history = current.getHistory();
-                    cout << history.size();
+                    cout << history.size() << " item(s):\n";
                     for (int i = 0; i < history.size(); i++)
                     {
                         cout << history[i] <<"\n";
@@ -845,11 +854,11 @@ int main(){
             outfile << endl;
         }
         outfile << items[i].getTitle() << delimiter;
-        outfile << items[i].getGenre("") << delimiter;
-        outfile << items[i].getPrice("") << delimiter;
-        outfile << items[i].getPublisher("") << delimiter;
-        outfile << items[i].getPlatform("") << delimiter;
-        outfile << items[i].getYear("");
+        outfile << items[i].getGenre() << delimiter;
+        outfile << items[i].getPrice() << delimiter;
+        outfile << items[i].getPublisher() << delimiter;
+        outfile << items[i].getPlatform() << delimiter;
+        outfile << items[i].getYear();
     }
     outfile.close();
 
@@ -872,8 +881,8 @@ int main(){
             outfile << endl;
         }
         outfile << allCarts[i].getUsername() << delimiter;
-        for (int j = 0; j < allCarts.viewCart(current.getUsername()).size(); j++){
-            Item temp = allCarts.viewCart(current.getUsername())[j];
+        for (int j = 0; j < allCarts[i].viewCart().size(); j++){
+            Item temp = allCarts[i].viewCart()[j];
             outfile << temp.getTitle() << delimiter;
         }
         outfile << "END";

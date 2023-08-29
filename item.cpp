@@ -26,22 +26,22 @@ string Item::getTitle() {
     return title;
 }
 
-string Item::getGenre(string title) {
+string Item::getGenre() {
     return genre;
 }
 
-double Item::getPrice(string title) {
+double Item::getPrice() {
     return price;
 }
 
-string Item::getPublisher(string title) {
+string Item::getPublisher() {
     return publisher;
 }
 
-string Item::getPlatform(string title) {
+string Item::getPlatform() {
     return platform;
 }
 
-int Item::getYear(string title) {
+int Item::getYear() {
     return yearReleased;
 }

@@ -15,22 +15,24 @@ using namespace std;
 class cart
 {
     private:
-        string user;
-        vector<string> items;
-        vector<Item> allItems;
-        vector<vector<string>> allCarts;
-        bool changed = false;
+        User user;
+        vector<Item> items;
+//        vector<Item> allItems;
+//        vector<vector<string>> allCarts;
+//        bool changed = false;
         
         
     public:
-        cart(vector<vector<string>> &everyCart,vector<Item> &aItems);
+        cart();
+        cart(User user);
+        cart(User user, vector<Item> items);
         string getUsername();
-        vector<Item> getCurrentCart(string username);
-        vector<Item> viewCart(string username);
-        void addItem(string username, Item items, int quantity);
-        void removeItem(string username,Item items);
-        void checkout(Inventory invTory,string name, User user);
-        void emptyCart(string username);
+//        vector<Item> getCurrentCart(string username);
+        vector<Item> viewCart();
+        void addItem(Item item, int quantity);
+        void removeItem(Item item);
+        void checkout(User &user, Inventory &inventory);
+        void emptyCart();
         //~cart();
 };
 

@@ -28,87 +28,73 @@ using namespace std;
 //     this->changed = false;
     
 // }
-vector<Item> cart::getCurrentCart(string username){
-    vector<Item> currentItems;
-    for (int i = 0; i < this->allCarts.size(); i++){
-        if (this->allCarts[i][0] == username){
-            vector<string> userCart = this->allCarts[i];
-            for (int j = 0; j < userCart.size(); j++)
-            {
-                for(int k = 0; k < this->allItems.size(); k++){
-                    if (this->allItems[k].getTitle() == userCart[j])
-                    {
-                            currentItems.push_back(this->allItems[k]);
-                    }
-                }
-                
-            }
-                    
-        }
+//vector<Item> cart::getCurrentCart(string username){
+//    vector<Item> currentItems;
+//    for (int i = 0; i < this->allCarts.size(); i++){
+//        if (this->allCarts[i][0] == username){
+//            vector<string> userCart = this->allCarts[i];
+//            for (int j = 0; j < userCart.size(); j++)
+//            {
+//                for(int k = 0; k < this->allItems.size(); k++){
+//                    if (this->allItems[k].getTitle() == userCart[j])
+//                    {
+//                            currentItems.push_back(this->allItems[k]);
+//                    }
+//                }
+//
+//            }
+//
+//        }
+//    }
+//    return currentItems;
+//}
+
+cart::cart(){
+
+}
+
+cart::cart(User user){
+    this->user = user;
+}
+
+cart::cart(User user, vector<Item> items){
+    this->user = user;
+    this->items = items;
+}
+
+string cart::getUsername(){
+    return this->user.getUsername();
+}
+vector<Item> cart::viewCart(){
+    return this->items;
+}
+void cart::addItem(Item item, int quantity){//temparly changing this to a string
+    for(int i = 0; i < quantity; i++) {
+        this->items.push_back(item);
     }
-    return currentItems;
-}
-cart::cart(vector<vector<string>> &cC, vector<Item> &alItems){
-    this->allItems = alItems;
-    this->allCarts = cC;
 }
 
-string cart::getUsername(){//comment here
-    return this->user;
-}
-vector<Item> cart::viewCart(string user){
-    return this->getCurrentCart(user);
-}
-void cart::addItem(string username, Item items, int quantity){//temparly changing this to a string
-
-   for (int i = 0; i < allCarts.size(); i++)
-   {
-        if (this->allCarts[i][0] == username)
-        {
-            allCarts[i].pop_back();
-            allCarts[i].push_back(items.getTitle());
-            allCarts[i].push_back("END");
-        }
-        
-   }
-    
-}
-
-void cart::removeItem(string username,Item items){
-       for (int i = 0; i < allCarts.size(); i++)
-       {
-            if (this->allCarts[i][0] == username)
-                {
-                    for (int j = 0; j < allCarts[i].size(); j++)
-                    {
-                        if (allCarts[i][j] == items.getTitle())
-                        {
-                            allCarts[i].erase(allCarts[i].begin() +j);
-                        }
-                        
-                    }
-                    
-                }
-        
-   }
-
-}
-void cart::emptyCart(string name){
-    for (int i = 0; i < allCarts.size(); i++)
-    {
-        if (this->allCarts[i][0] == name){
-            allCarts[i].erase(allCarts[i].begin() + 1, allCarts[i].end() - 1 );
-            
+void cart::removeItem(Item item){
+    for (int i = 0; i < this->items.size(); i++){
+        if(items[i].getTitle() == item.getTitle()){
+            items.erase(items.begin() + i);
         }
     }
 
 }
-void cart::checkout(Inventory invTory,string name, User user){
-    vector<Item> temp = this->getCurrentCart(name);
-    for (int i = 0; i < temp.size(); i++)
-    {
-        invTory.removeInventory(temp[i],1);
+
+void cart::checkout(User &user, Inventory &inventory){
+    vector<Item> temp = this->viewCart();
+    cout << "inside checkout: temp assigned" << endl;
+    for (int i = 0; i < temp.size(); i++) {
+        inventory.removeInventory(temp[i],1);
         user.addToHistory(temp[i].getTitle());
     }
-    this->emptyCart(name);
+    cout << "inside checkout: past for loop" << endl;
+    this->emptyCart();
+    cout << "inside checkout: complete" << endl;
+}
+
+void cart::emptyCart(){
+    items.clear();
 }
